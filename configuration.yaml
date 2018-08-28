@@ -79,9 +79,6 @@ netatmo:
   username: !secret netatmo_username 
   password: !secret netatmo_password
 
-camera:
-  - platform: netatmo
-
 group: !include groups.yaml
 automation: !include automations.yaml
 zone: !include zones.yaml
@@ -91,4 +88,5 @@ script: !include scripts.yaml
 device_tracker: !include device_tracker.yaml
 climate: !include climate.yaml
 tts: !include text_to_speach.yaml
+camera: !include cameras.yaml
 # scene: !include scenes.yaml
