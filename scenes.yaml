@@ -1,0 +1,8 @@
+scene:
+  - name: Despertar
+    entities:
+      switch.lampara_entrada:
+        state: on
+      light.dormitorio_2:
+        state: on
+        brightness: 50

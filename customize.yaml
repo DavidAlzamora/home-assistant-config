@@ -1,0 +1,28 @@
+sensor.yr_temperature:
+  friendly_name: Temperatura
+sensor.yr_pressure:
+  friendly_name: Presión
+sensor.yr_humidity:
+  friendly_name: Humedad
+sensor.yr_wind_speed:
+  friendly_name: Velocidad del viento
+sensor.yr_wind_direction:
+  friendly_name: Dirección del viento
+sun.sun:
+  friendly_name: Sol
+sensor.fibaron_entrada_luminance:
+  friendly_name: Luz
+sensor.fibaron_entrada_temperature:
+  friendly_name: Temperatura
+light.lampara_salon:
+  friendly_name: Terraza izquierda
+sensor.fibaro_habitacion_luminance:
+  friendly_name: Luz
+sensor.fibaro_habitacion_temperature:
+  friendly_name: Temperatura
+climate.cocina:
+  friendly_name: Aire acondicionado
+group.all_automations:
+  hidden: false
+light.hue_white_lamp_1_3:
+  friendly_name: Entrada

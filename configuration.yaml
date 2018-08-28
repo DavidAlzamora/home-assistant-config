@@ -1,0 +1,94 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location
+  latitude: !secret house_latitude
+  longitude: !secret house_longitude
+  elevation: !secret house_elevation
+  unit_system: !secret unit_system
+  time_zone: !secret time_zone
+  # Customization file
+  customize: !include customize.yaml
+
+# Enables the frontend
+frontend:
+  javascript_version: latest
+
+# Enables configuration UI
+config:
+
+http:
+  api_password: !secret http_password
+  base_url: !secret base_url
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+
+updater:
+  
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# switch:
+#  - platform: tplink
+#    name: Lampara entrada
+#    host: 192.168.1.14
+
+#Telegram
+telegram_bot:
+  platform: polling
+  api_key: !secret telegram_api_key
+  parse_mode: html
+  allowed_chat_ids:
+    - !secret telegram_david_id
+    - !secret telegram_cati_id
+
+notify:
+  - name: telegram
+    platform: telegram
+    chat_id: !secret telegram_david_id
+  - name: telegram_cati
+    platform: telegram
+    chat_id: !secret telegram_cati_id
+
+# Cloud
+cloud:
+
+# z-wave
+zwave:
+  usb_path: /dev/ttyACM0
+  autoheal: false
+
+netatmo:
+  api_key: !secret netatmo_api_key
+  secret_key: !secret netatmo_api_secret
+  username: !secret netatmo_username 
+  password: !secret netatmo_password
+
+camera:
+  - platform: netatmo
+
+group: !include groups.yaml
+automation: !include automations.yaml
+zone: !include zones.yaml
+sensor: !include sensors.yaml
+binary_sensor: !include binary_sensors.yaml
+script: !include scripts.yaml
+device_tracker: !include device_tracker.yaml
+climate: !include climate.yaml
+tts: !include text_to_speach.yaml
+# scene: !include scenes.yaml

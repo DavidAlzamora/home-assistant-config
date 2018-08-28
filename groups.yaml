@@ -1,0 +1,93 @@
+default_view:
+  view: yes
+  icon: mdi:home
+  entities:
+    - group.tracker_devices
+    - group.entrada
+    - group.kitchen
+    - group.main_room
+    - device_tracker.huawei_cati
+    - device_tracker.oneplus_david
+Seguridad:
+  view: yes
+  icon: mdi:security
+  entities:
+    - group.camaras
+Exterior:
+  view: yes
+  entities:
+    - group.climate_outdoor
+    - group.luces_exteriores
+Multimedia:
+  view: yes
+  entities:
+    - group.media_player_view
+Automatizaciones:
+  view: yes
+  entities:
+    - group.all_automations
+main_room:
+  name: Habitación principal
+  entities:
+    - light.dormitorio
+    - sensor.fibaro_habitacion_luminance
+    - sensor.fibaro_habitacion_temperature
+    - binary_sensor.temperatura_exterior_inferior_interior
+entrada:
+  name: Recibidor
+  entities:
+    - sensor.fibaron_entrada_luminance
+    - sensor.fibaron_entrada_temperature
+    - light.hue_white_lamp_1_3
+#    - switch.lampara_entrada
+kitchen:
+  name: Cocina
+  entities:
+    - light.comedor
+    - binary_sensor.puerta_cocina_apertura
+    - climate.cocina
+    - sensor.kitchen_temperature
+    - sensor.kitchen_humidity
+    - sensor.fibaro_kitchen_door_sensor_temperature
+climate_outdoor:
+  name: Temperatura exterior
+  entities:
+    - sensor.yr_symbol
+    - sensor.yr_temperature
+    - sensor.yr_pressure
+    - sensor.yr_humidity
+    - sensor.yr_wind_speed
+    - sensor.yr_wind_direction
+    - sun.sun
+luces_exteriores:
+  name: Luces del exterior
+  entities:
+    - light.hue_white_lamp_1
+    - light.hue_white_lamp_3
+    - light.hue_white_lamp_2
+    - light.hue_white_lamp_1_2
+    - light.lampara_salon
+media_player_view:
+  name: Reproductores
+  entities:
+    - media_player.living_room_sonos
+    - media_player.sala_de_tvcine
+    - media_player.dormitorio
+home_lights:
+  name: Luces casa
+  entities:
+    - light.dormitorio
+    - light.comedor
+    - light.hue_white_lamp_1_3
+#    - switch.lampara_entrada
+tracker_devices:
+  name: Familia
+  view: no
+  entities:
+    - device_tracker.huawei_cati
+    - device_tracker.oneplus_david
+    - device_tracker.virtual_device
+camaras:
+  name: Camaras
+  entities:
+    - camera.entrada

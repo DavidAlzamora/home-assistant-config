@@ -1,0 +1,343 @@
+#######################################################################################
+########################################LIGHTS#########################################
+#######################################################################################
+
+- id: lights_sunset
+  alias: Enciende las luces al anochecer
+  trigger:
+    platform: sun
+    event: sunset
+    offset: -00:30:00
+  action:
+    service: homeassistant.turn_on
+    entity_id: group.home_lights
+
+- id: lights_off
+  alias: Apaga las luces
+  trigger:
+    platform: time
+    at: 00:10:00
+  condition:
+    condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.home_lights
+    - service: homeassistant.turn_off
+      entity_id: group.luces_exteriores
+
+- id: lights_morning
+  alias: Despertar
+  trigger:
+    platform: time
+    at: 07:00:00
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    - condition: sun
+      before: sunrise
+  action:
+    - service: homeassistant.turn_on
+      entity_id: group.home_lights
+    - service: homeassistant.turn_on
+      entity_id: group.luces_exteriores
+
+- id: lights_off_morning
+  alias: Al trabajo
+  trigger:
+    platform: time
+    at: 07:35:00
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.home_lights
+    - service: homeassistant.turn_off
+      entity_id: group.luces_exteriores
+
+
+- id: light_entry_on_motion_detected
+  alias: Ilumina al llegar
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entrada_detector_movimiento
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.fibaron_entrada_luminance
+        below: '5'
+      - condition: state
+        entity_id: light.hue_white_lamp_1_3
+        state: 'off'
+      - condition: state
+        entity_id: group.tracker_devices
+        state: home
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.hue_white_lamp_1_3
+
+
+- id: light_entry_off_if_needed
+  alias: Apaga la luz de la entrada a los 10 minutos
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entrada_detector_movimiento
+    to: 'off'
+    for: 
+      minutes: 10
+  condition: 
+    condition: time
+    after: '00:10:00'
+    before: '19:00:00'
+  action: 
+    service: homeassistant.turn_off
+    entity_id: light.hue_white_lamp_1_3
+
+
+- id: ligths_garden_on_at_sunset
+  alias: Enciende las luces exteriores al atardecer
+  trigger:
+    platform: sun
+    event: sunset
+  action:
+    service: homeassistant.turn_on
+    entity_id: group.luces_exteriores
+
+- id: ligths_garden_off_at_sunrise
+  alias: Apaga las luces exteriores al amanecer
+  trigger:
+    platform: sun
+    event: sunrise
+  action:
+    service: homeassistant.turn_off
+    entity_id: group.luces_exteriores
+
+- id: lights_auto_if_presence
+  alias: Enciende las luces exteriores si detecta presencia
+  trigger:
+    platform: state
+    entity_id: group.tracker_devices
+    to: home
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.luces_exteriores
+        state: 'off'
+      - condition: sun
+        after: sunset
+  action: 
+    service: homeassistant.turn_on
+    entity_id: group.luces_exteriores
+
+#######################################################################################
+########################################SECURITY#######################################
+#######################################################################################
+
+- id: motion_detection
+  alias: Notify motion detection
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entrada_detector_movimiento
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.tracker_devices
+        state: not_home
+      - condition: state
+        entity_id: binary_sensor.someone_know_in_home
+        state: 'off'
+  action:
+  - service: notify.telegram
+    data:
+      message: Movimiento detectado en la entrada
+  - service: notify.telegram_cati
+    data:
+      message: Movimiento detectado en la entrada
+
+- id: known_motion_detection
+  alias: Notify some known in entrance
+  trigger:
+    platform: state
+    entity_id: binary_sensor.someone_know_in_home
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.tracker_devices
+    state: not_home
+  action:
+  - service: notify.telegram
+    data:
+      message: ¡Persona conocida en casa!
+  - service: notify.telegram_cati
+    data:
+      message: ¡Persona conocida en casa!
+
+- alias: Notify motion sabotaje
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entrada_detector_movimiento_sabotaje
+    to: 'on'
+  action:
+  - service: notify.telegram
+    data:
+      message: Ayuda!!! Me han saboteado
+  - service: notify.telegram_cati
+    data:
+      message: Ayuda!!! Me han saboteado
+
+#######################################################################################
+########################################CLIMATE########################################
+#######################################################################################
+
+- id: turn_on_climate_morning
+  alias: Enciende la calefacción por la mañana
+  trigger:
+    platform: time
+    at: '06:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{(states.sensor.kitchen_temperature.state | int) < 18}}"
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+  action:
+    - service: homeassistant.turn_on
+      entity_id: climate.cocina
+
+- id: turn_off_climate_morning
+  alias: Apaga la calefacción por la mañana
+  trigger:
+    platform: time
+    at: '07:30:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: state
+        entity_id: climate.cocina
+        state: heat
+  action:
+    - service: homeassistant.turn_off
+      entity_id: climate.cocina
+    - service: notify.telegram
+      data_template:
+        title: 'Aire acondicionado apagado'
+        message: >
+          He apagado el aire acondicionado, porque ya no estas en casa. Pasa un buen día!
+    - service: notify.telegram_cati
+      data_template:
+        title: 'Aire acondicionado apagado'
+        message: >
+          He apagado el aire acondicionado, porque ya no estas en casa. Pasa un buen día!
+
+#######################################################################################
+########################################TELEGRAM#######################################
+#######################################################################################
+
+- id: 'should_start_climate'
+  alias: 'Encendemos la calefacción?'
+  trigger:
+    platform: time
+    at: '16:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{(states.sensor.kitchen_temperature.state | int) < 20}}"
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+  action:
+    - service: notify.telegram
+      data_template:
+        title: 'Parece que hace frio'
+        message: >
+          La temperatura de la cocina es {{ states.sensor.kitchen_temperature.state }} º
+          ¿Que quieres hacer?
+        data:
+          inline_keyboard:
+            - "Encender la calefacción :/turn_on"
+            - " No hagas nada"
+    - service: notify.telegram_cati
+      data_template:
+        title: 'Parece que hace frio'
+        message: >
+          La temperatura de la cocina es {{ states.sensor.kitchen_temperature.state }} º
+          ¿Que quieres hacer?
+        data:
+          inline_keyboard:
+            - "Encender la calefacción :/turn_on"
+            - " No hagas nada"
+
+- id: 'turn_on_climate_telegram'
+  alias: 'Enciende la calefacción: telegram'
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+        command: '/turn_on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: climate.cocina
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: '{{ trigger.event.data.id }}'
+        message: 'Encendiendo el aire.'
+    - service: telegram_bot.edit_message
+      data_template:
+        message_id: 'last'
+        chat_id: '{{ trigger.event.data.user_id }}'
+        message: >
+          He encendido el aire por ti. Espero que encuentes la casa a tu gusto llegar.
+          ¡Hasta luego!
+
+#######################################################################################
+########################################Z-WAVE#########################################
+#######################################################################################
+
+- id: zwave_auto_heal
+  alias: Heal at 2:00 am
+  trigger:
+    platform: time
+    at: '02:00:00'
+  action:
+    service: zwave.heal_network

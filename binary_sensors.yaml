@@ -1,0 +1,40 @@
+- platform: template
+  sensors:
+    entrada_detector_movimiento:
+      device_class: motion
+      friendly_name: "Detector movimiento"
+      value_template:  >-
+         {%- if is_state('sensor.fibaron_entrada_burglar', '8') -%}
+            true
+          {%- else -%}
+            false
+          {%- endif -%}
+    entrada_detector_movimiento_sabotaje:
+      device_class: motion
+      friendly_name: "Detector sabotaje"
+      value_template: >-
+          {%- if is_state('sensor.fibaron_entrada_burglar', '3') -%}
+            true
+          {%- else -%}
+            false
+          {%- endif -%}
+    puerta_cocina_apertura:
+      device_class: opening
+      friendly_name: "Puerta cocina"
+      value_template: "{{ is_state('sensor.fibaro_kitchen_door_sensor_access_control', '23')}}"
+    temperatura_exterior_inferior_interior:
+      device_class: cold
+      friendly_name: "Temperatura exterior"
+      value_template: "{{ status.sensor.yr_temperature.state | int < status.sensor.fibaro_habitacion_temperature.state | int }}"
+    someone_know_in_home:
+      device_class: motion
+      friendly_name: "Conocido en casa"
+      value_template: >-
+        {{ is_state('sensor_fibaron_entrada_burglar', '8') 
+           and is_state('binary_sensor.entrada_someone_known','on') }}
+    someone_not_know_in_home:
+      device_class: motion
+      friendly_name: "Desconocido en casa"
+      value_template: >-
+        {{ is_state('sensor_fibaron_entrada_burglar', '8') 
+           and is_state('binary_sensor.entrada_someone_unknown','on') }}

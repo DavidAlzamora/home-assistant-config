@@ -1,0 +1,47 @@
+resources:
+  - url: /local/custom-lovelace/thermostat-card/thermostat-card.js?v=0.0.2
+    type: module
+title: My new HomeView
+views:
+  - icon: mdi:home
+    title: Inside
+    id: inside
+    theme: dark_mode
+    cards:
+      - type: glance
+        column_width: calc(100% / 7)
+        show_name: false
+        entities:
+          - device_tracker.huawei_cati
+          - device_tracker.oneplus_david
+      - type: picture-glance
+        title: Entrada
+        entities:
+          - light.hue_white_lamp_1_3
+          - sensor.fibaron_entrada_luminance
+          - sensor.fibaron_entrada_temperature
+          - binary_sensor.entrada_detector_movimiento
+        camera_image: camera.entrada
+      - type: picture-glance
+        title: Cocina
+        entities:
+          - light.comedor
+          - binary_sensor.puerta_cocina_apertura
+          - climate.cocina
+          - sensor.kitchen_humidity
+          - sensor.fibaro_kitchen_door_sensor_temperature
+        state_image:
+          "on": /local/cocina_2.jpg
+          "off": /local/cocina_dark_2.jpg
+        entity: group.kitchen
+      - type: custom:thermostat-card
+        title: Cocina
+        entity: climate.cocina
+        step: 1
+        hvac:
+          states:
+            'Off': 'off'
+            'On' : 'on'
+            'Cooling': 'cool'
+            'Heating': 'heat'
+          attribute: operation_mode

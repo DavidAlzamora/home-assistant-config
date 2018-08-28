@@ -1,0 +1,27 @@
+# Weather prediction
+- platform: yr
+  monitored_conditions:
+      - temperature
+      - symbol
+      - precipitation
+      - windSpeed
+      - pressure
+      - windDirection
+      - humidity
+      - fog
+      - cloudiness
+      - lowClouds
+      - mediumClouds
+      - highClouds
+      - dewpointTemperature
+
+- platform: template
+  sensors:
+      kitchen_temperature:
+            friendly_name: "Temperatura"
+            value_template: "{{ states.climate.cocina.attributes.current_temperature }}"
+            unit_of_measurement: 'ºC'
+      kitchen_humidity:
+            friendly_name: "Humedad"
+            value_template: "{{ states.climate.cocina.attributes.current_humidity }}"
+            unit_of_measurement: '%'
