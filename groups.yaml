@@ -32,7 +32,6 @@ main_room:
     - light.dormitorio
     - sensor.fibaro_habitacion_luminance
     - sensor.fibaro_habitacion_temperature
-    - binary_sensor.temperatura_exterior_inferior_interior
 entrada:
   name: Recibidor
   entities:
