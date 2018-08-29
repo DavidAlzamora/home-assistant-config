@@ -113,6 +113,23 @@
     service: homeassistant.turn_off
     entity_id: light.hue_white_lamp_1_3
 
+- id: dim_entry_light_if_nobody_in
+  alias: Ajusta el brillo si no hay nadie en la entrada
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entrada_detector_movimiento
+    to: 'off'
+    for: 
+      minutes: 10
+  condition: 
+    condition: time
+    after: '19:00:00'
+    before: '00:10:00'
+  action: 
+    - service: light.turn_on
+      data:
+        entity_id: light.hue_white_lamp_1_3
+        brightness: 127
 
 - id: ligths_garden_on_at_sunset
   alias: Enciende las luces exteriores al atardecer
