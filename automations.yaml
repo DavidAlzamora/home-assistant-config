@@ -96,6 +96,30 @@
     service: homeassistant.turn_on
     entity_id: light.hue_white_lamp_1_3
 
+- id: dim_entry_light_if_motion_detected
+  alias: Ajusta la ilumnacion si hay movimiento
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entrada_detector_movimiento
+    to: 'on'
+  condition:
+    condition: and
+    conditions:      
+      - condition: state
+        entity_id: light.hue_white_lamp_1_3
+        state: 'on'
+      - condition: state
+        entity_id: group.tracker_devices
+        state: home
+      - condition: numeric_state
+        entity_id: light.hue_white_lamp_1_3
+        value_template: '{{ states.light.hue_white_lamp_1_3.attributes.brightness }}'
+        below: 254
+  action: 
+    - service: light.turn_on
+      data:
+        entity_id: light.hue_white_lamp_1_3
+        brightness: 254  
 
 - id: light_entry_off_if_needed
   alias: Apaga la luz de la entrada a los 10 minutos
