@@ -33,4 +33,5 @@
       friendly_name: "Desconocido en casa"
       value_template: >-
         {{ is_state('sensor_fibaron_entrada_burglar', '8') 
-           and is_state('binary_sensor.entrada_someone_unknown','on') }}
+           or is_state('binary_sensor.entrada_someone_unknown','on')
+           and is_state('group.tracker_devices', 'not_home') }}    
