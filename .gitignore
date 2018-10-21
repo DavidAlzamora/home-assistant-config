@@ -20,3 +20,15 @@ secrets.yaml
 zwcfg_0xd7010e81.xml
 .storage/auth
 .storage/core.config_entries
+.storage/onboarding
+.storage/auth_provider.homeassistant
+.storage/core.device_registry
+.storage/core.entity_registry
+.storage/onboarding
+.storage/auth_provider.homeassistant
+.storage/core.device_registry
+.storage/core.entity_registry
+.storage/auth_provider.homeassistant
+.storage/core.device_registry
+.storage/core.entity_registry
+.storage/onboarding

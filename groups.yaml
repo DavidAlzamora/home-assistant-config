@@ -77,8 +77,7 @@ home_lights:
   entities:
     - light.dormitorio
     - light.comedor
-    - light.hue_white_lamp_1_3
-#    - switch.lampara_entrada
+    - light.entrada
 tracker_devices:
   name: Familia
   view: no
