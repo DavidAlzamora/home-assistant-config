@@ -1,12 +1,12 @@
-- name: Casa
-  latitude: 39.770749
-  longitude: 3.020717
+- name: Home
+  latitude: !secret house_latitude
+  longitude: !secret house_longitude
   radius: 350
   icon: mdi:home
 
 
-- name: Hotelbeds
-  latitude: 39.543519
-  longitude: 2.715543
+- name: Work
+  latitude: !secret work_latitude 
+  longitude: !secret work_longitude
   radius: 200
   icon: mdi:briefcase
