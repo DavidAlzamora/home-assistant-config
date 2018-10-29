@@ -35,7 +35,7 @@
   alias: Despertar
   trigger:
     platform: time
-    at: 07:00:00
+    at: 06:55:00
   condition:
     condition: and
     conditions:
@@ -87,7 +87,7 @@
         entity_id: sensor.fibaron_entrada_luminance
         below: '5'
       - condition: state
-        entity_id: light.hue_white_lamp_1_3
+        entity_id: light.entrada
         state: 'off'
       - condition: state
         entity_id: group.tracker_devices
@@ -106,19 +106,19 @@
     condition: and
     conditions:      
       - condition: state
-        entity_id: light.hue_white_lamp_1_3
+        entity_id: light.entrada
         state: 'on'
       - condition: state
         entity_id: group.tracker_devices
         state: home
       - condition: numeric_state
-        entity_id: light.hue_white_lamp_1_3
-        value_template: '{{ states.light.hue_white_lamp_1_3.attributes.brightness }}'
+        entity_id: light.entrada
+        value_template: '{{ states.light.entrada.attributes.brightness }}'
         below: 254
   action: 
     - service: light.turn_on
       data:
-        entity_id: light.hue_white_lamp_1_3
+        entity_id: light.entrada
         brightness: 254  
 
 - id: light_entry_off_if_needed
@@ -132,10 +132,10 @@
   condition: 
     condition: time
     after: '00:10:00'
-    before: '19:00:00'
+    before: '18:00:00'
   action: 
     service: homeassistant.turn_off
-    entity_id: light.hue_white_lamp_1_3
+    entity_id: light.entrada
 
 - id: dim_entry_light_if_nobody_in
   alias: Ajusta el brillo si no hay nadie en la entrada
@@ -152,7 +152,7 @@
   action: 
     - service: light.turn_on
       data:
-        entity_id: light.hue_white_lamp_1_3
+        entity_id: light.entrada
         brightness: 127
 
 - id: ligths_garden_on_at_sunset

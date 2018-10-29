@@ -298,3 +298,11 @@ b49d0b99bd7e:
   name: 0071479ea6d9
   picture:
   track: true
+
+7c49eb9fd5eb:
+  hide_if_away: false
+  icon:
+  mac: 7C:49:EB:9F:D5:EB
+  name: 7c49eb9fd5eb
+  picture:
+  track: true
