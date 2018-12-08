@@ -1,5 +1,5 @@
 resources:
-  - url: /local/custom-lovelace/thermostat-card/thermostat-card.js?v=0.0.2
+  - url: /local/custom-lovelace/thermostat/simple-thermostat.js?v=1
     type: module
 title: My new HomeView
 views:
@@ -34,8 +34,8 @@ views:
           "on": /local/cocina_2.jpg
           "off": /local/cocina_dark_2.jpg
         entity: group.kitchen
-      - type: custom:thermostat-card
-        title: Cocina
+      - type: custom:simple-thermostat
+        name: Cocina
         entity: climate.cocina
         step: 1
         hvac:

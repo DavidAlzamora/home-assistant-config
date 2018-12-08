@@ -9,8 +9,10 @@
     event: sunset
     offset: -00:30:00
   action:
-    service: homeassistant.turn_on
+    service: light.turn_on
     entity_id: group.home_lights
+    data:
+      transition: 900
 
 - id: lights_off
   alias: Apaga las luces
@@ -18,13 +20,9 @@
     platform: time
     at: 00:10:00
   condition:
-    condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+    condition: state
+    entity_id: 'binary_sensor.workday_sensor'
+    state: 'on'
   action:
     - service: homeassistant.turn_off
       entity_id: group.home_lights
@@ -131,8 +129,8 @@
       minutes: 10
   condition: 
     condition: time
+    before: '17:00:00'
     after: '00:10:00'
-    before: '18:00:00'
   action: 
     service: homeassistant.turn_off
     entity_id: light.entrada
@@ -147,7 +145,7 @@
       minutes: 10
   condition: 
     condition: time
-    after: '19:00:00'
+    after: '17:00:00'
     before: '00:10:00'
   action: 
     - service: light.turn_on
@@ -283,13 +281,6 @@
   condition:
     condition: and
     conditions:
-      - condition: time
-        weekday:
-          - mon
-          - tue
-          - wed
-          - thu
-          - fri
       - condition: state
         entity_id: climate.cocina
         state: heat
@@ -338,7 +329,7 @@
         data:
           inline_keyboard:
             - "Encender la calefacción :/turn_on"
-            - " No hagas nada"
+            - "No hagas nada"
     - service: notify.telegram_cati
       data_template:
         title: 'Parece que hace frio'
@@ -348,7 +339,7 @@
         data:
           inline_keyboard:
             - "Encender la calefacción :/turn_on"
-            - " No hagas nada"
+            - "No hagas nada"
 
 - id: 'turn_on_climate_telegram'
   alias: 'Enciende la calefacción: telegram'
@@ -383,3 +374,7 @@
     at: '02:00:00'
   action:
     service: zwave.heal_network
+
+#######################################################################################
+########################################TESTS##########################################
+#######################################################################################

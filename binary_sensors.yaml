@@ -35,6 +35,7 @@
         {{ is_state('sensor_fibaron_entrada_burglar', '8') 
            or is_state('binary_sensor.entrada_someone_unknown','on')
            and is_state('group.tracker_devices', 'not_home') }}
+
 - platform: workday
   country: ES
   province: IBA

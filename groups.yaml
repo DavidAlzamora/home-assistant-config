@@ -37,8 +37,8 @@ entrada:
   entities:
     - sensor.fibaron_entrada_luminance
     - sensor.fibaron_entrada_temperature
-    - light.hue_white_lamp_1_3
-#    - switch.lampara_entrada
+    - light.entrada
+    - switch.luz_arbol
 kitchen:
   name: Cocina
   entities:

@@ -43,10 +43,10 @@ map:
 # Track the sun
 sun:
 
-# switch:
-#  - platform: tplink
-#    name: Lampara entrada
-#    host: 192.168.1.14
+switch:
+  - platform: tplink
+    name: Luz arbol
+    host: 192.168.1.27
 
 #Telegram
 telegram_bot:
