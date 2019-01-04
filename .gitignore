@@ -16,6 +16,7 @@ OZW_Log.txt
 home-assistant.log
 home-assistant_v2.db
 pyozw.sqlite
+phue-001788402f2c.conf
 secrets.yaml
 known_devices.yaml
 zwcfg_0xd7010e81.xml
