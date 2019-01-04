@@ -247,6 +247,23 @@
   - service: notify.telegram_cati
     data:
       message: Ayuda!!! Me han saboteado
+      
+- alias: Avisa cuando se abre la puerta
+  trigger:
+    platform: state
+    entity_id: binary_sensor.puerta_cocina_apertura
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.tracker_devices
+    state: not_home
+  action:
+  - service: notify.telegram
+    data:
+      message: Puerta de la cocina abierta
+  - service: notify.telegram_cati
+    data:
+      message: Puerta de la cocina abierta
 
 #######################################################################################
 ########################################CLIMATE########################################
